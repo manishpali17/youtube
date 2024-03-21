@@ -1,15 +1,21 @@
+import { Comment, CommentData } from "@/utils/types";
 import { createAppSlice } from "../createAppSlice";
 import {
+  addReplyToComment,
   createComment,
   deleteComment,
+  deleteReply,
   getVideoComments,
   updateComment,
+  updateReply,
 } from "./commentAPI";
+import { PayloadAction } from "@reduxjs/toolkit";
 
 export interface commentState {
   status: "idle" | "loading" | "failed";
-  comments: any[];
+  comments: Comment[];
   totalComments: number;
+  nextPage: number | null;
   hasNextPage: boolean;
 }
 
@@ -18,11 +24,15 @@ const initialState: commentState = {
   comments: [],
   totalComments: 0,
   hasNextPage: false,
+  nextPage: 0,
 };
-const commentSlice = createAppSlice({
-  name: "comment",
+export const commentSlice = createAppSlice({
+  name: "comments",
   initialState,
   reducers: (create) => ({
+    removeComments: create.reducer((state) => {
+      state.comments = [];
+    }),
     createcomment: create.asyncThunk(
       async (data) => {
         const response = await createComment(data);
@@ -43,9 +53,9 @@ const commentSlice = createAppSlice({
         },
       }
     ),
-    getvideocomment: create.asyncThunk(
-      async (videoId) => {
-        const response = await getVideoComments(videoId);
+    getvideocomments: create.asyncThunk(
+      async ({ videoId }) => {
+        const response = await getVideoComments({videoId});
         console.log(response);
         return response.data;
       },
@@ -53,8 +63,13 @@ const commentSlice = createAppSlice({
         pending: (state) => {
           state.status = "loading";
         },
-        fulfilled: (state) => {
+        fulfilled: (state, action: PayloadAction<CommentData>) => {
           state.status = "idle";
+          state.comments = [...state.comments, ...action.payload.comments];
+          console.log(action.payload.comments)
+          state.hasNextPage = action.payload.hasNextPage;
+          state.nextPage = action.payload.nextPage;
+          state.totalComments = action.payload.totalComments;
         },
         rejected: (state) => {
           state.status = "failed";
@@ -71,8 +86,14 @@ const commentSlice = createAppSlice({
         pending: (state) => {
           state.status = "loading";
         },
-        fulfilled: (state) => {
+        fulfilled: (state, action) => {
           state.status = "idle";
+          const updatedCommentIndex = state.comments.findIndex(
+            (comment) => comment._id === action.payload._id
+          );
+          if (updatedCommentIndex !== -1) {
+            state.comments[updatedCommentIndex] = action.payload;
+          }
         },
         rejected: (state) => {
           state.status = "failed";
@@ -101,20 +122,77 @@ const commentSlice = createAppSlice({
         },
       }
     ),
+    addreplytocomment: create.asyncThunk(
+      async (data) => {
+        const response = await addReplyToComment(data);
+        console.log(response);
+        return response.data;
+      },
+      {
+        pending: (state) => {
+          state.status = "loading";
+        },
+        fulfilled: (state, action) => {
+          state.status = "idle";
+
+          state.totalComments--;
+        },
+        rejected: (state) => {
+          state.status = "failed";
+        },
+      }
+    ),
+    updatereply: create.asyncThunk(
+      async ({ replyId, content }: { replyId: string; content: string }) => {
+        const response = await updateReply({ replyId, content });
+        console.log(response);
+        return response.data;
+      },
+      {
+        pending: (state) => {
+          state.status = "loading";
+        },
+        fulfilled: (state) => {
+          state.status = "idle";
+        },
+        rejected: (state) => {
+          state.status = "failed";
+        },
+      }
+    ),
+    deletereply: create.asyncThunk(
+      async (replyId) => {
+        const response = await deleteReply(replyId);
+        console.log(response);
+        return response.data;
+      },
+      {
+        pending: (state) => {
+          state.status = "loading";
+        },
+        fulfilled: (state) => {
+          state.status = "idle";
+        },
+        rejected: (state) => {
+          state.status = "failed";
+        },
+      }
+    ),
   }),
   selectors: {
-    selectComments: (state) => {
-      state.comments;
-    },
-    selectHasNextPage: (state) => {
-      state.hasNextPage;
-    },
-    selectTotalComments: (state) => {
-      state.totalComments;
-    },
+    selectStatus: (state) => state.status,
+    selectComments: (state) => state.comments,
+    selectHasNextPage: (state) => state.hasNextPage,
+    selectTotalComments: (state) => state.totalComments,
+    selectNextPage: (state) => state.nextPage,
   },
 });
-export const { selectComments, selectHasNextPage, selectTotalComments } =
+export const { selectComments, selectHasNextPage, selectTotalComments, selectStatus ,selectNextPage } =
   commentSlice.selectors;
-export const { createcomment, updatecomment, deletecomment, getvideocomment } =
-  commentSlice.actions;
+export const {
+  removeComments,
+  createcomment,
+  updatecomment,
+  deletecomment,
+  getvideocomments,
+} = commentSlice.actions;

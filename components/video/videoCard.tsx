@@ -11,7 +11,7 @@ export default function Videocard({ data }: { data: Video }) {
         <span className="absolute bottom-2 right-2 bg-gray-900 text-white p-0.5 px-1 rounded-sm z-5 text-xs">
           {getVideoDuration(data.duration)}
         </span>
-        <Link href={`/watch/${data._id}`}>
+        <Link href={`/watch/${encodeURIComponent(data._id)}`}>
           <Image
             src={data.thumbnail.url || ""}
             alt="thumbnail"

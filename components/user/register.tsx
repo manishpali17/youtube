@@ -35,7 +35,6 @@ export default function RegisterForm() {
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    console.log(values);
     dispatch(register(values));
   };
 

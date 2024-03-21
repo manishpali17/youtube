@@ -27,7 +27,6 @@ export default function UpdateAvatarForm() {
   const dispatch = useAppDispatch();
 
   const onSubmit = (values: z.infer<typeof AvatarSchema>) => {
-    console.log(values);
     dispatch(updateUserAvatar(values.avatar));
   };
   return (

@@ -5,7 +5,7 @@ export default async function VideoDetail({
 }: {
   params: { _id: string };
 }) {
-  const id = params._id;
+  const id = decodeURIComponent(params._id);
 
   return (
     <>

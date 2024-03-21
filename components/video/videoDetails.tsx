@@ -1,25 +1,39 @@
 "use client";
 import React, { useEffect } from "react";
 import ReactPlayer from "react-player";
-import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
+import { AiFillLike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { abbreviateNumber } from "js-abbreviation-number";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   getAllVideos,
   removeVideos,
+  selectHasNextPage,
+  selectNextPage,
+  selectStatus,
   selectVideo,
   selectVideos,
   videoById,
 } from "@/lib/video/videoSlice";
 import SuggestionVideoCard from "./videoSuggestion";
 import { getVideoAge } from "@/utils/helper";
-import { MdOutlineSort } from "react-icons/md";
+import InfiniteScroll from "react-infinite-scroller";
+import { ClimbingBoxLoader } from "react-spinners";
+import GetComments from "../comments/getComments";
 
 const VideoDetails = ({ id }: { id: string }) => {
   const dispatch = useAppDispatch();
   const video = useAppSelector(selectVideo);
   const videos = useAppSelector(selectVideos);
+  const status = useAppSelector(selectStatus);
+  const hasNextPage = useAppSelector(selectHasNextPage);
+  const nextPage = useAppSelector(selectNextPage);
+
+  const loadMore = () => {
+    if (hasNextPage && status === "idle" && nextPage !== null) {
+      dispatch(getAllVideos({ page: nextPage }));
+    }
+  };
 
   useEffect(() => {
     dispatch(removeVideos());
@@ -39,8 +53,8 @@ const VideoDetails = ({ id }: { id: string }) => {
   return (
     <div className="flex justify-center flex-row h-[calc(100%-56px)] dark:bg-black">
       <div className="w-full max-w-[1280px] flex flex-col lg:flex-row">
-        <div className="flex flex-col lg:w-[calc(100%-350px)] xl:w-[calc(100%-400px)] px-4 py-3 lg:py-6 overflow-y-auto">
-          <div className="h-[200px] md:h-[45%]  ml-[-16px] lg:ml-0 mr-[-16px] lg:mr-0">
+        <div className="flex flex-col lg:w-[calc(100%-350px)] xl:w-[calc(100%-400px)] px-4 py-3 lg:py-6 ">
+          <div className="h-[200px] md:h-[45%] max-h-[500px]  ml-[-16px] lg:ml-0 mr-[-16px] lg:mr-0">
             <ReactPlayer
               url={video?.videoFile.url}
               controls={true}
@@ -87,12 +101,17 @@ const VideoDetails = ({ id }: { id: string }) => {
             <div className="flex dark:text-white mt-4 md:mt-0">
               <div className="flex items-center justify-center h-11 px-6 gap-2 rounded-3xl bg-slate-200">
                 <div className="flex items-center justify-center">
-                  <AiOutlineLike className="text-xl dark:text-white mr-2" />
+                  {video.isLiked ? (
+                    <AiFillLike className="text-xl dark:text-white mr-2" />
+                  ) : (
+                    <AiOutlineLike className="text-xl dark:text-white mr-2" />
+                  )}
                   {`${abbreviateNumber(video.likesOnVideo, 2)} Likes`}
                 </div>
                 <div className="bg-black w-[1px] h-6"></div>
                 <div className="flex items-center justify-center">
-                  <AiOutlineDislike className="text-xl dark:text-white mr-2" />0
+                  <AiOutlineDislike className="text-xl dark:text-white mr-2" />{" "}
+                  0
                 </div>
               </div>
               <div className="flex items-center justify-center h-11 px-6 rounded-3xl bg-white/[0.15] ml-4"></div>
@@ -107,43 +126,26 @@ const VideoDetails = ({ id }: { id: string }) => {
               <div className="p-2 pt-1">{video.description}</div>
             </div>
           </div>
-          <div className="flex flex-col mt-3">
-            <div className="w-full flex flex-col">
-              <div className="flex items-center gap-5">
-                <span className="font-bold text-xl">5 Comments</span>
-                <div className="flex items-center gap-2">
-                  <button>
-                    <MdOutlineSort size={25} />
-                  </button>
-                  <span className="text-sm font-semibold">Sort by</span>
-                </div>
-              </div>
-              <div className="mt-4 flex gap-5">
-                <div className="relative h-10 ml-2 w-10 rounded-full">
-                  {" "}
-                  <Image
-                    src={""}
-                    placeholder="empty"
-                    alt=""
-                    fill
-                    className="rounded-full"
-                  />
-                </div>
-                <div className="flex flex-col w-full">
-                  <input type="text" placeholder="add comment" />
-                  <div className="h-[1px] bg-black"></div>
-                </div>
-              </div>
-            </div>
-            <div className="w-full flex items-center mt-4">
-              comment components
-            </div>
-          </div>
+          <GetComments videoId={id} />
         </div>
         <div className="flex flex-col py-6 px-4 overflow-y-auto lg:w-[350px] xl:w-[400px]">
-          {videos.map((video, index) => {
-            return <SuggestionVideoCard key={index} video={video} />;
-          })}
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={loadMore}
+            hasMore={hasNextPage}
+            loader={
+              <div
+                className="loader flex h-svh items-center justify-center"
+                key={0}
+              >
+                <ClimbingBoxLoader color={"#ff0000"} loading={true} />
+              </div>
+            }
+          >
+            {videos.map((video, index) => {
+              return <SuggestionVideoCard key={index} video={video} />;
+            })}
+          </InfiniteScroll>
         </div>
       </div>
     </div>

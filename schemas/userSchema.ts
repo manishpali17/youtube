@@ -25,7 +25,6 @@ export const RegisterSchema = z.object({
   avatar: z.any().refine(
     (value) => {
       const file = value as File;
-      console.log(file);
       return isValidImageType(file) && isValidImageSize(file);
     },
     {
@@ -61,7 +60,6 @@ export const CoverImageSchema = z.object({
   coverImage: z.any().refine(
     (value) => {
       const file = value as File;
-      console.log(file);
       return isValidImageType(file) && isValidImageSize(file);
     },
     {
@@ -74,7 +72,6 @@ export const AvatarSchema = z.object({
   avatar: z.any().refine(
     (value) => {
       const file = value as File;
-      console.log(file);
       return isValidImageType(file) && isValidImageSize(file);
     },
     {

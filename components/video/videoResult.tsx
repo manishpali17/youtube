@@ -15,10 +15,6 @@ export default function SearchResult({
   loadMore: () => void;
   hasNextPage: boolean;
 }) {
-  //   useEffect(() => {
-  //     document.getElementById("root").classList.remove("custom-h");
-  //     fetchSearchResults();
-  //   }, [searchQuery]);
 
   return (
     <>

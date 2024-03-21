@@ -83,3 +83,43 @@ export type DetailVideo = {
   likesOnVideo: number;
   isLiked: boolean;
 };
+
+export interface Owner {
+  _id: string;
+  username: string;
+  fullName: string;
+  avatar: string;
+}
+export interface CommentReply {
+  _id: string;
+  content: string;
+  owner: Owner;
+  createdAt: string;
+  updatedAt: string;
+  likesOnComment: number;
+  isLiked: boolean;
+}
+
+export interface Comment {
+  _id: string;
+  content: string;
+  owner: Owner;
+  createdAt: string;
+  updatedAt: string;
+  replies: CommentReply[];
+  likesOnComment: number;
+  isLiked: boolean;
+}
+
+export interface CommentData {
+  comments: Comment[];
+  totalComments: number;
+  limit: number;
+  page: number;
+  totalPages: number;
+  pagingCounter: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
+  prevPage: null | number;
+  nextPage: null | number;
+}

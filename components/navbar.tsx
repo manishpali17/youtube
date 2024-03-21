@@ -20,14 +20,15 @@ import { TiMicrophone } from "react-icons/ti";
 import { BsYoutube } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GoArrowLeft } from "react-icons/go";
-import { navigate } from "@/lib/action";
 import { FaRegUserCircle } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 export default function Navbar({
   onToggleSidebar,
 }: {
   onToggleSidebar: () => void;
 }) {
+  const router = useRouter()
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -53,9 +54,10 @@ export default function Navbar({
     }
   };
 
-  const searchQueryHandler = (searchQuery: string) => {
-    navigate(searchQuery);
-  };
+const searchQueryHandler = (searchQuery: string) => {
+  router.push(`/results?search_query=${searchQuery}`);
+};
+
   return (
     <>
       <NavigationMenu className="max-w-full sm:block hidden w-full bg-white dark:bg-black sticky top-0 h-12 px-4 pb-2 pt-1">

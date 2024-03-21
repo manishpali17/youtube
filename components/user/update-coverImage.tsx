@@ -27,7 +27,6 @@ export default function UpdateCoverImageForm() {
   const dispatch = useAppDispatch();
 
   const onSubmit = (values: z.infer<typeof CoverImageSchema>) => {
-    console.log(values);
     dispatch(updateUserCoverImage(values.coverImage));
   };
   return (

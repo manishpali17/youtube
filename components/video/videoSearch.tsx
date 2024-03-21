@@ -8,7 +8,7 @@ import { Video } from "@/utils/types";
 
 const SearchResultVideoCard = ({ video }: { video: Video }) => {
   return (
-    <Link href={`/watch/${video._id}}`}>
+    <Link href={`/watch/${encodeURIComponent(video._id)}}`}>
       <div className="flex flex-col md:flex-row mb-8 md:mb-3 lg:hover:bg-slate-200/[0.1] rounded-xl md:p-4">
         <div className="relative  shrink-0  md:h-28 lg:h-72  w-full md:w-48 lg:w-2/5 max-w-[500px]  max-h-[290px] rounded-xl bg-slate-800 overflow-hidden">
           <Image
