@@ -15,9 +15,10 @@ export default function Videocard({ data }: { data: Video }) {
           <Image
             src={data.thumbnail.url || ""}
             alt="thumbnail"
-            height={200}
+            height={192}
             width={320}
             className="rounded-lg h-48 w-96"
+            priority
           />
         </Link>
       </div>

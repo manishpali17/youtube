@@ -1,7 +1,5 @@
 import { apiClient } from "@/utils/axios";
 
-console.log(apiClient.defaults.baseURL);
-
 const loginUser = async (userData: {
   username?: string;
   email?: string;

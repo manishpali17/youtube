@@ -1,10 +1,11 @@
 // Import necessary modules and utilities
 import axios from "axios";
 import { LocalStorage } from "@/utils/localStorage";
+import { server_url } from "@/utils/constant";
 
 // Create an Axios instance for API requests
 export const apiClient = axios.create({
-  baseURL: process.env.SERVER_URI,
+  baseURL: server_url,
   withCredentials: true,
   timeout: 120000,
 });

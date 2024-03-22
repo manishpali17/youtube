@@ -50,15 +50,16 @@ export default function GetComments({ videoId }: { videoId: string }) {
             </div>
           </div>
           <div className="mt-4 flex gap-5">
-            <div className="relative h-10 ml-2 w-10 rounded-full">
+            <div className="h-10 ml-2 w-10 rounded-full">
               {" "}
               {currentUser ? (
                 <Image
-                  src={currentUser?.avatar}
+                  src={currentUser.avatar}
                   placeholder="empty"
-                  alt={currentUser?.fullName}
-                  fill
-                  className="rounded-full"
+                  alt={currentUser.fullName}
+                  width={40}
+                  height={40}
+                  className="rounded-full h-full w-full"
                 />
               ) : (
                 <FaUser />

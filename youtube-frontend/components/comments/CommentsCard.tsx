@@ -24,14 +24,14 @@ export default function CommentsCard({ comment }: { comment: Comment }) {
       <div className="w-full flex items-center mt-4">
         <div className="flex w-full h-fit gap-2">
           <div className="min-w-12">
-            <div className="relative h-10 w-10 ml-1.5">
+            <div className="h-10 w-10 ml-1.5">
               <Link href={comment.owner._id}>
                 <Image
-                  fill
+                  width={40}
+                  height={40}
                   src={comment.owner.avatar}
                   alt={comment.owner.fullName}
-                  sizes="2.25rem"
-                  className="rounded-full mr-3"
+                  className="rounded-full mr-3 h-full w-full"
                 />
               </Link>
             </div>
@@ -88,14 +88,14 @@ export default function CommentsCard({ comment }: { comment: Comment }) {
               <div key={reply._id} className="ml-16 flex flex-col ">
                 <div className="flex w-full h-fit">
                   <div className="min-w-10">
-                    <div className="relative h-6 w-6">
+                    <div className="h-6 w-6">
                       <Link href={reply._id}>
                         <Image
-                          fill
+                          width={24}
+                          height={24}
                           src={reply.owner.avatar}
                           alt={comment.owner.fullName}
-                          sizes="2.25rem"
-                          className="rounded-full mr-3"
+                          className="rounded-full mr-3 h-full w-full"
                         />
                       </Link>
                     </div>

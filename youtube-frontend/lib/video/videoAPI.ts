@@ -1,4 +1,5 @@
 import { apiClient } from "@/utils/axios";
+import { server_url } from "@/utils/constant";
 
 const getAllVideo = async ({
   userId,
@@ -16,7 +17,7 @@ const getAllVideo = async ({
   limit: string;
 }) => {
   try {
-    const url = new URL(`${process.env.SERVER_URI}/videos`);
+    const url = new URL(`${server_url}/videos`);
 
     if (userId) url.searchParams.set("userId", userId);
     if (query) url.searchParams.set("query", query);

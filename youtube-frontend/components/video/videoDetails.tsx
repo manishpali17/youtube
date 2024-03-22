@@ -78,8 +78,8 @@ const VideoDetails = ({ id }: { id: string }) => {
                   <Image
                     className="h-full w-full object-cover"
                     src={video.owner.avatar}
-                    height={40}
-                    width={40}
+                    height={44}
+                    width={44}
                     alt={video.owner.fullName}
                   />
                 </div>

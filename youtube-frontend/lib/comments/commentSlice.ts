@@ -66,7 +66,6 @@ export const commentSlice = createAppSlice({
         fulfilled: (state, action: PayloadAction<CommentData>) => {
           state.status = "idle";
           state.comments = [...state.comments, ...action.payload.comments];
-          console.log(action.payload.comments)
           state.hasNextPage = action.payload.hasNextPage;
           state.nextPage = action.payload.nextPage;
           state.totalComments = action.payload.totalComments;

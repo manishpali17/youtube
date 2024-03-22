@@ -1,4 +1,5 @@
 import { apiClient } from "@/utils/axios";
+import { server_url } from "@/utils/constant";
 
 const createComment = async ({
   content,
@@ -28,7 +29,7 @@ const getVideoComments = async ({
   sortType?: string;
 }) => {
   try {
-    const url = new URL(`${process.env.SERVER_URI}/comments/${videoId}`);
+    const url = new URL(`${server_url}/comments/${videoId}`);
     if (page) url.searchParams.set("page", page.toString());
     if (limit) url.searchParams.set("limit", limit.toString());
     if (sortType) url.searchParams.set("sortType", sortType.toString());

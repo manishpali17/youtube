@@ -28,7 +28,7 @@ export default function Navbar({
 }: {
   onToggleSidebar: () => void;
 }) {
-  const router = useRouter()
+  const router = useRouter();
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -54,9 +54,9 @@ export default function Navbar({
     }
   };
 
-const searchQueryHandler = (searchQuery: string) => {
-  router.push(`/results?search_query=${searchQuery}`);
-};
+  const searchQueryHandler = (searchQuery: string) => {
+    router.push(`/results?search_query=${searchQuery}`);
+  };
 
   return (
     <>
@@ -121,13 +121,13 @@ const searchQueryHandler = (searchQuery: string) => {
           </div>
           {user ? (
             <Link href="/" legacyBehavior passHref>
-              <div className="rounded-full relative w-10 h-10">
+              <div className="rounded-full w-10 h-10">
                 <Image
-                  src={user?.avatar || ""}
-                  alt="logo"
-                  fill
-                  sizes="2.25rem"
-                  className="rounded-full bg-slate-300"
+                  src={user.avatar}
+                  alt={user.fullName}
+                  width={40}
+                  height={40}
+                  className="rounded-full h-full w-full bg-slate-300"
                 />
               </div>
             </Link>
@@ -169,13 +169,13 @@ const searchQueryHandler = (searchQuery: string) => {
                 <IoIosSearch className="text-2xl dark:bg-white" />
               </button>
               {user ? (
-                <div className="relative h-7 w-7">
+                <div className="h-7 w-7">
                   <Image
-                    src={user?.avatar || ""}
-                    className="rounded-full"
-                    alt="logo"
-                    fill
-                    sizes="2.25rem"
+                    src={user.avatar}
+                    className="rounded-full w-full h-full"
+                    alt={user.fullName}
+                    width={28}
+                    height={28}
                   />
                 </div>
               ) : (

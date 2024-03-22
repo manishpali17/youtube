@@ -18,6 +18,7 @@ const SuggestionVideoCard = ({ video }: { video: Video }) => {
             alt={video.title}
             width={160}
             height={80}
+            priority
           />
           <span className="absolute bottom-2 right-2 bg-black py-1 px-2 text-white text-xs rounded-md">
             {getVideoDuration(video.duration)}
