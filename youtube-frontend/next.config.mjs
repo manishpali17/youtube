@@ -11,7 +11,8 @@ const nextConfig = {
             },
             {
                 hostname: "avatars.githubusercontent.com"
-            }, {
+            }, 
+            {
                 hostname: "cloudflare-ipfs.com"
             },
             { hostname: "cloudflare-ipfs.com" }

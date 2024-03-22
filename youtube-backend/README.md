@@ -94,7 +94,7 @@ This is a mini ``YOUTUBE-BACKEND`` project that covers the major functionalities
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/manishpali17/youtube-backend.git
+    git clone https://github.com/manishpali17/youtube.git
     ```
 
 2. **Install dependencies:**
@@ -114,10 +114,10 @@ This is a mini ``YOUTUBE-BACKEND`` project that covers the major functionalities
     ```
     
     ```
-    PORT=3000
+    PORT=8080
     NODE_ENV=<development> # if you want stack and seeding functionality
     MONGO_URI=<mongodb connection string>
-    CORS_ORIGIN=*
+    CORS_ORIGIN=http://localhost:3000
     ACCESS_TOKEN_SECRET=<your token secret>
     ACCESS_TOKEN_EXPIRY=1d
     REFRESH_TOKEN_SECRET=< your refresh token secret>
@@ -133,7 +133,7 @@ This is a mini ``YOUTUBE-BACKEND`` project that covers the major functionalities
     # Start the server using npm
     npm run dev
     ```
-    Server will start on Port:3000
+    Server will start on Port:8080
 
 ## Contributing
 
